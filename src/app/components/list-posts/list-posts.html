@@ -1,12 +1,15 @@
 <main>
-    <article>
-            @for( post of PostsArray; track post.id ) {
+    <h2>Total Posts: {{ PostsArray.length }}</h2>
+
+    <article class="post-list-container">
+            @for( post of PostsArray; track $index ) {
                 <section>
-                    <h2>Total Posts: {{ PostsArray.length }}</h2>
+                    <!-- <h1>ID: {{ post.id }}</h1> -->
+                    <h1>Post No: {{ $index + 1 }}</h1>
                     <h2>{{ post.title }}</h2>   
                     <p>{{ post.body }}</p>
                     <span (click)="navigateToEditPost(post.id)">Edit</span>
-                    <span>Delete</span>
+                    <span (click)="deletePostItem(post.id)">Delete</span>
                     <span (click)="navigateToPostDetails(post.id)">Details</span>
                     <span (click)="navigateToCreateNewPost()">NewPost</span>
                 </section>

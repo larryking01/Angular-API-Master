@@ -46,6 +46,11 @@ export class ListPosts implements OnInit {
   }
 
 
+  deletePostItem(postId: number) {
+    this.apiService.deletePost( postId )
+  }
+
+
 
 
 

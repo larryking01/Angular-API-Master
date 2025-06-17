@@ -1,1 +1,14 @@
-<p>post-details works!</p>
+<section>
+    <h2>Post Details</h2>
+    <h4>{{ postDetail?.title }}</h4>
+    <p>{{ postDetail?.body }}</p>
+
+    <h4>{{ postComments.length }} comments for this post</h4>
+
+    @for( comment of postComments; track comment.id ) {
+        <div>
+            <p>{{ comment.email }}</p>
+            <h4>{{ comment.body }}</h4>
+        </div>
+    }
+</section>
