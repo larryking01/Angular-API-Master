@@ -25,7 +25,7 @@ export class EditPost implements OnInit {
     userId: 1000,
     id: 2000,
     title: "Radioactivity",
-    body: "Science sucks"
+    body: "Science is exciting"
   }
 
   ngOnInit(): void {

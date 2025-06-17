@@ -1,0 +1,13 @@
+.post-list-container {
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+
+
+    section {
+        background-color: antiquewhite;
+        border-radius: 0.625rem;
+        padding: 1rem;
+    }
+}
