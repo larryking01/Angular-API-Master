@@ -1,11 +1,52 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ApiService } from '../../services/api-service';
+import { PostInterface } from '../../../shared/model';
+import { CommonModule } from '@angular/common';
+
+
+
 
 @Component({
   selector: 'app-list-posts',
-  imports: [],
+  imports: [ CommonModule ],
   templateUrl: './list-posts.html',
   styleUrl: './list-posts.scss'
 })
-export class ListPosts {
+export class ListPosts implements OnInit {
+  PostsArray: PostInterface[] = [];
+
+  apiService = inject(ApiService);
+
+  router = inject(Router);
+
+  ngOnInit(): void {
+    this.apiService.AllPostsArray$.subscribe({
+      next: (( data: PostInterface[]) => {
+        this.PostsArray = data;
+        console.log('all posts = ', this.PostsArray)
+      })
+
+    })
+  }
+
+
+  navigateToCreateNewPost() {
+    this.router.navigate(['create-post'])
+  }
+
+
+  navigateToEditPost(postId: number) {
+    this.router.navigate(['edit-post', postId])
+  }
+
+  
+  navigateToPostDetails(postId: number) {
+    this.router.navigate(['post-details', postId])
+  }
+
+
+
+
 
 }

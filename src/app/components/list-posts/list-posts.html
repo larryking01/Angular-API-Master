@@ -1,1 +1,20 @@
-<p>list-posts works!</p>
+<main>
+    <article>
+            @for( post of PostsArray; track post.id ) {
+                <section>
+                    <h2>Total Posts: {{ PostsArray.length }}</h2>
+                    <h2>{{ post.title }}</h2>   
+                    <p>{{ post.body }}</p>
+                    <span (click)="navigateToEditPost(post.id)">Edit</span>
+                    <span>Delete</span>
+                    <span (click)="navigateToPostDetails(post.id)">Details</span>
+                    <span (click)="navigateToCreateNewPost()">NewPost</span>
+                </section>
+            }
+            @empty {
+                <section class="no-posts">
+                    <h3>Sorry, there are no posts to display now...</h3>
+                </section>
+            }
+        </article>
+</main>
