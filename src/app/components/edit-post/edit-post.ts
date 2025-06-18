@@ -3,12 +3,12 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
 import { ApiService } from '../../services/api-service';
 import { ActivatedRoute } from '@angular/router';
 import { PostInterface } from '../../../shared/model';
-
+import { Navbar } from '../navbar/navbar';
 
 
 @Component({
   selector: 'app-edit-post',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Navbar],
   templateUrl: './edit-post.html',
   styleUrl: './edit-post.scss'
 })

@@ -2,12 +2,12 @@ import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { PostInterface } from '../../../shared/model';
 import { ApiService } from '../../services/api-service';
-
+import { Navbar } from '../navbar/navbar';
 
 
 @Component({
   selector: 'app-create-post',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Navbar],
   templateUrl: './create-post.html',
   styleUrl: './create-post.scss'
 })
