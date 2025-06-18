@@ -5,6 +5,7 @@
         <div class="intro-div">
             <h2>Total Posts: {{ PostsArray.length }}</h2>
             <button (click)="navigateToCreateNewPost()">NewPost</button>
+            <button (click)="apiService.clearPostsCache()">Clear Posts Cache</button>
         </div>
 
         <article class="post-list-container">

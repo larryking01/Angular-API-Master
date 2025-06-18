@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, of, throwError, retry, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { PostInterface, CommentInterface } from '../../shared/model';
 import { ErrorService } from './error-service';
-
+import { CacheService } from './cache-service';
 
 
 @Injectable({
@@ -14,33 +14,59 @@ export class ApiService {
   AllPostsArray$ = this.AllPostsArray.asObservable()
 
   httpClient = inject( HttpClient )
-
   errorService = inject( ErrorService )
+  cacheService = inject( CacheService )
+
+  baseUrl = 'https://jsonplaceholder.typicode.com/posts'
+
 
   constructor() {
-    this.fetchAllPosts()
+    // this.fetchAllPosts()
    }
 
 
+  clearPostsCache() {
+    console.log("all cache cleared")
+    this.cacheService.clearKey(this.baseUrl);
+  }
+
+
   fetchAllPosts() {
-    this.httpClient.get<PostInterface[]>('https://jsonplaceholder.typicode.com/posts')
+
+    // const cacheKey = url;
+    const cachedData = this.cacheService.get(this.baseUrl);
+
+    if (cachedData) {
+      this.AllPostsArray.next(cachedData);
+      console.log('[CACHE] Loaded posts from cache');
+      return;
+    }
+    
+    this.httpClient.get<PostInterface[]>(this.baseUrl)
     .pipe(
+      retry(2),
       catchError(( err ) => {
         this.errorService.handleAPIRequestError( err ); // centralized error handling
         return of([]) // fallback value to avoid app craching
       })
     )
-    .subscribe({
-      next: ( data => this.AllPostsArray.next( data )),
-      
-    })
+    // .subscribe({
+    //   next: ( data => this.AllPostsArray.next( data )),
+    // })
+    .subscribe((data) => {
+      this.AllPostsArray.next(data);
+      this.cacheService.set(this.baseUrl, data);
+      console.log('[API] Fetched posts and cached them');
+    });
   }
 
 
   createNewPost(post: PostInterface) {
     let currentPosts = this.AllPostsArray.getValue();
-    this.httpClient.post<PostInterface>('https://jsonplaceholder.typicode.com/posts', post)
-    .pipe(catchError(( err ) => {
+    this.httpClient.post<PostInterface>(this.baseUrl, post)
+    .pipe(
+      retry(2),
+      catchError(( err ) => {
       this.errorService.handleAPIRequestError( err )
       return of( null ) // so the app can continue
     }))
@@ -62,18 +88,36 @@ export class ApiService {
 
 
   getPostDetails( postID: string ): Observable<PostInterface> {
-    return this.httpClient.get<PostInterface>(`https://jsonplaceholder.typicode.com/posts/${ postID }`).pipe(
+    const url = `${this.baseUrl}/${postID}`;
+    const cachedData = this.cacheService.get(url);
+
+    if (cachedData) {
+      console.log(`[CACHE] Loaded post ${postID} from cache`);
+      return of(cachedData); // Return cached result as Observable
+    }
+
+
+    return this.httpClient.get<PostInterface>(`${this.baseUrl}/${ postID }`).pipe(
+      retry(2),
       catchError(( error ) => {
         this.errorService.handleAPIRequestError( error );
         return throwError(() => error )  // re-throw so the component can handle it too
+      }),
+      // Store result in cache
+      // Use tap() to cache the successful response before emitting
+      // (avoids side effects inside subscribe)
+      // But since you want to return an Observable, we use tap here
+      tap((data) => {
+        this.cacheService.set(url, data);
+        console.log(`[API] Fetched and cached post ${postID}`);
       })
-    )
+      )
 
   }
 
 
   deletePost( postID: number ) {
-    this.httpClient.delete<void>(`https://jsonplaceholder.typicode.com/posts/${ postID }`)
+    this.httpClient.delete<void>(`${this.baseUrl}/${ postID }`)
     .pipe(
       catchError((error) => {
         this.errorService.handleAPIRequestError( error );
@@ -96,7 +140,7 @@ export class ApiService {
 
   editPost( oldPostID: number, updatedPost: PostInterface ) {
     let oldPost;
-    this.httpClient.put<PostInterface>(`https://jsonplaceholder.typicode.com/posts/${ oldPostID }`, updatedPost)
+    this.httpClient.put<PostInterface>(`${this.baseUrl}/${ oldPostID }`, updatedPost)
     .pipe(
       catchError(( error ) => {
         this.errorService.handleAPIRequestError( error );
@@ -122,8 +166,21 @@ export class ApiService {
 
 
   getPostComments(postID: string): Observable<CommentInterface[]> {
-    return this.httpClient.get<CommentInterface[]>(`https://jsonplaceholder.typicode.com/posts/${ postID }/comments`)
+    const url = `${this.baseUrl}/${postID}/comments`;
+    const cachedData = this.cacheService.get(url);
+
+    if (cachedData) {
+      console.log(`[CACHE] Loaded comments for post ${postID}`);
+      return of(cachedData); // Return cached Observable
+    }
+
+    return this.httpClient.get<CommentInterface[]>(`${this.baseUrl}/${ postID }/comments`)
     .pipe(
+      retry(2),
+      tap((data) => {
+        this.cacheService.set(url, data);
+        console.log(`[API] Fetched and cached comments for post ${postID}`);
+      }),
       catchError(( error ) => {
         this.errorService.handleAPIRequestError( error );
         return throwError(() => error )
