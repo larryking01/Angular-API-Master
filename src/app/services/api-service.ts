@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { PostInterface, CommentInterface } from '../../shared/model';
 import { ErrorService } from './error-service';
 import { CacheService } from './cache-service';
+import { environment } from '../../environments/environment';
+
 
 
 @Injectable({
@@ -17,7 +19,7 @@ export class ApiService {
   errorService = inject( ErrorService )
   cacheService = inject( CacheService )
 
-  baseUrl = 'https://jsonplaceholder.typicode.com/posts'
+  baseUrl = `${ environment.apiBaseUrl }/posts`
 
 
   constructor() {
@@ -70,18 +72,11 @@ export class ApiService {
       this.errorService.handleAPIRequestError( err )
       return of( null ) // so the app can continue
     }))
-    // .subscribe({
-    //   next: ( data => {
-    //     let updatedPosts = [ data, ...currentPosts ]
-    //     this.AllPostsArray.next( updatedPosts )
-    //   }
-    // )
-    
-    // })
     .subscribe((data) => {
       if( data ) {
         let updatedPosts = [ data, ...currentPosts ]
         this.AllPostsArray.next( updatedPosts )
+        this.cacheService.set(this.baseUrl, updatedPosts);  // update cache to keep it in sync.    
       }
     })
   }
@@ -132,6 +127,9 @@ export class ApiService {
         let currentPosts = this.AllPostsArray.getValue()
         let filteredPosts = currentPosts.filter( post => post.id !== postID );
         this.AllPostsArray.next( filteredPosts )
+
+        this.cacheService.set(this.baseUrl, filteredPosts);
+        console.log('[CACHE] Cache updated after deleting post');      
       })
     })
   }
@@ -159,6 +157,9 @@ export class ApiService {
         let indexOfPostToEdit = currentItems.findIndex( postItem => postItem.id === oldPostID )
         currentItems[ indexOfPostToEdit ] = updatedPost
         this.AllPostsArray.next( currentItems )
+
+        this.cacheService.set(this.baseUrl, currentItems);
+        console.log('[CACHE] Cache updated after editing post');
       })
     })
 
