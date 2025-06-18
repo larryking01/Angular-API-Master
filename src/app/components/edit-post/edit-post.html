@@ -1,12 +1,37 @@
+<main class="main-wrapper">
+    <app-navbar></app-navbar>
 
-<section class="create-post">
-    <form [formGroup]="editForm" (ngSubmit)="handleEditPostItem()">
-        <label for="postTitle">Post Title</label>
-        <input type="text" id="postTitle" class="post-title" formControlName="postTitle">
+    <section class="create-post">
+        <form [formGroup]="editForm" (ngSubmit)="handleEditPostItem()">
+            <!-- <label for="postTitle">Post Title</label>
+            <input type="text" id="postTitle" class="post-title" formControlName="postTitle">
 
-        <label for="postBody">Post Body</label>
-        <input type="text" id="postBody" class="post-body" formControlName="postBody">
+            <label for="postBody">Post Body</label>
+            <input type="text" id="postBody" class="post-body" formControlName="postBody">
 
-        <button type="submit" class="create-post-btn">Edit Post</button>
-    </form>
-</section>
+            <button type="submit" class="create-post-btn">Edit Post</button> -->
+
+            <article>
+                <div class="post-title-div">
+                    <label for="postTitle">Post Title</label>
+                    <div>
+                        <input type="text" class="post-title" id="postTitle" formControlName="postTitle" />
+                    </div>
+                </div>
+                
+                <div class="post-body-div">
+                    <label for="postBody">Post Body</label>
+                    <div>
+                        <textarea type="text" class="post-body" id="postBody" formControlName="postBody" rows="14">
+                        </textarea>
+                    </div>
+                </div>
+            </article>
+
+            <article class="action-btn-article">
+                <button type="submit" class="create-post-btn">Edit Post</button>
+                <button type="submit" class="cancel-post-btn">Cancel</button>
+            </article>
+        </form>
+    </section>
+</main>
