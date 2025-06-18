@@ -4,20 +4,28 @@
     <section class="main-section">
         <div class="intro-div">
             <h2>Total Posts: {{ PostsArray.length }}</h2>
-            <button (click)="navigateToCreateNewPost()">NewPost</button>
-            <button (click)="apiService.clearPostsCache()">Clear Posts Cache</button>
+            <button (click)="navigateToCreateNewPost()" class="new-post-btn">+ New Post</button>
+            <!-- <button (click)="apiService.clearPostsCache()">Clear Posts Cache</button> -->
         </div>
 
         <article class="post-list-container">
                 @for( post of PostsArray; track $index ) {
-                    <section>
-                        <!-- <h1>ID: {{ post.id }}</h1> -->
-                        <h1>Post No: {{ $index + 1 }}</h1>
-                        <h2>{{ post.title }}</h2>   
-                        <p>{{ post.body }}</p>
-                        <span (click)="navigateToEditPost(post.id)">Edit</span>
-                        <span (click)="deletePostItem(post.id)">Delete</span>
-                        <span (click)="navigateToPostDetails(post.id)">Details</span>
+                    <section class="post-card">
+                        <div class="post-info-div">
+                            <img 
+                                src="https://png.pngtree.com/png-clipart/20200224/original/pngtree-cartoon-color-simple-male-avatar-png-image_5230557.jpg"
+                                class="post-user-image"
+                            >
+                            <!-- <h1>Post No: {{ $index + 1 }}</h1> -->
+                            <h2 class="post-title">{{ post.title.slice(0, 33) }}...</h2>  
+                            <p class="post-body">{{ post.body.slice(0, 100) }}...</p>
+                        </div>
+
+                        <div class="action-buttons-div">
+                            <button (click)="navigateToEditPost(post.id)">Edit</button>
+                            <button (click)="deletePostItem(post.id)">Delete</button>
+                            <button (click)="navigateToPostDetails(post.id)">Details</button>
+                        </div>
                     </section>
                 }
                 @empty {
