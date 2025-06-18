@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api-service';
 import { ActivatedRoute } from '@angular/router';
 import { PostInterface } from '../../../shared/model';
@@ -7,18 +8,15 @@ import { PostInterface } from '../../../shared/model';
 
 @Component({
   selector: 'app-edit-post',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './edit-post.html',
   styleUrl: './edit-post.scss'
 })
 export class EditPost implements OnInit {
 
   apiService = inject( ApiService )
-
   activatedRoute = inject( ActivatedRoute )
-
   selectedPostID: string = ''
-
   oldPostItem: PostInterface | null = null
 
   updatedPostItem: PostInterface = {
@@ -28,16 +26,25 @@ export class EditPost implements OnInit {
     body: "Science is exciting"
   }
 
+
+  editForm = new FormGroup({
+    postTitle: new FormControl('', Validators.required ),
+    postBody: new FormControl('', Validators.required)
+  })
+
+
   ngOnInit(): void {
     this.selectedPostID = this.activatedRoute.snapshot.paramMap.get('postID')!;
     console.log('edit post detail id = ', this.selectedPostID );
-
-    let postDetail;
     
     this.apiService.getPostDetails( this.selectedPostID as string ).subscribe({
       next: ( data => {
         this.oldPostItem = data
         console.log("edit post detail = ", this.oldPostItem );
+        this.editForm.patchValue({
+          postTitle: this.oldPostItem.title,
+          postBody: this.oldPostItem.body
+        })
       }),
       error: ( err => console.log('edit error, cannot find post ', err ))
     })
@@ -46,7 +53,22 @@ export class EditPost implements OnInit {
 
 
   handleEditPostItem() {
-    this.apiService.editPost(Number.parseInt( this.selectedPostID ), this.updatedPostItem);
+    this.editForm.markAllAsTouched();
+    if( this.editForm.invalid ) {
+      console.log('all fields are required')
+    }
+    else {
+      console.log("old post = ", this.oldPostItem)
+      let updatedPost: PostInterface = {
+        id: this.oldPostItem!.id,
+        userId: this.oldPostItem!.userId,
+        title: this.editForm.value.postTitle!,
+        body: this.editForm.value.postBody!
+      }
+      this.apiService.editPost(Number.parseInt( this.selectedPostID ), updatedPost);
+      console.log("updated post = ", updatedPost)
+    }
+
   }
 
 
