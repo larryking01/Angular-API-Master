@@ -15,14 +15,14 @@ export class ApiService {
   private AllPostsArray = new BehaviorSubject<PostInterface[]>([])
   AllPostsArray$ = this.AllPostsArray.asObservable()
 
+  private totalPostsSubject = new BehaviorSubject<number>(0)
+  totalPosts$ = this.totalPostsSubject.asObservable()
+
   httpClient = inject( HttpClient )
   errorService = inject( ErrorService )
   cacheService = inject( CacheService )
 
   baseUrl = `${ environment.apiBaseUrl }/posts`
-
-  totalPosts: number = 0
-
 
   constructor() {
     // this.fetchAllPosts()
@@ -57,14 +57,6 @@ export class ApiService {
         return of({ body: [] })
       })
     )
-    // .subscribe({
-    //   next: ( data => this.AllPostsArray.next( data )),
-    // })
-    // .subscribe((data) => {
-    //   this.AllPostsArray.next(data);
-    //   this.cacheService.set(this.baseUrl, data);
-    //   console.log('[API] Fetched posts and cached them');
-    // });
     .subscribe(( res ) => {
       const posts = res.body ?? [];
       this.AllPostsArray.next( posts )
@@ -73,7 +65,7 @@ export class ApiService {
       if( res instanceof HttpResponse ) {
         // Get total count from header for pagination
         const totalCount = res.headers.get('X-Total-Count');
-        this.totalPosts = Number( totalCount )
+        this.totalPostsSubject.next(Number( totalCount ))
         console.log(`[API] Fetched page ${page}, total = ${totalCount}`);   
 
       }

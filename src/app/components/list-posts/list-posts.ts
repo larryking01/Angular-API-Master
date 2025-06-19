@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, effect } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api-service';
 import { PostInterface } from '../../../shared/model';
@@ -23,7 +23,7 @@ export class ListPosts implements OnInit {
   // for pagination
   currentPage = 1
   limit = 10
-  totalPosts = 100
+  totalPosts = 0
   totalPages = 0
 
 
@@ -35,13 +35,16 @@ export class ListPosts implements OnInit {
       next: ( posts => this.PostsArray = posts)
     })
 
+    this.apiService.totalPosts$.subscribe( total => {
+      this.totalPosts = total
+      this.totalPages = Math.ceil(this.totalPosts / this.limit);
+    })
 
   }
 
+  
   loadPosts() {
     this.apiService.fetchAllPosts(this.currentPage, this.limit)
-    this.totalPosts = this.apiService.totalPosts
-    this.totalPages = Math.ceil(this.totalPosts / this.limit)
   }
 
 
