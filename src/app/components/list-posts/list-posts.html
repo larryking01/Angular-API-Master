@@ -12,11 +12,15 @@
                 @for( post of PostsArray; track $index ) {
                     <section class="post-card">
                         <div class="post-info-div">
+                            <!-- <img 
+                                src="https://www.kindpng.com/picc/m/420-4204525_commentary-commentary-icon-png-transparent-png.png"
+                                class="post-user-image" alt="post man"
+                                > -->
+                        
                             <img 
-                                src="https://png.pngtree.com/png-clipart/20200224/original/pngtree-cartoon-color-simple-male-avatar-png-image_5230557.jpg"
-                                class="post-user-image"
-                            >
-                            <!-- <h1>Post No: {{ $index + 1 }}</h1> -->
+                                src="https://img.favpng.com/13/2/23/dialogue-assets-icon-comment-icon-chat-icon-Wq0hTNDy.jpg"
+                                class="post-user-image" alt="post-ivon" >
+
                             <h2 class="post-title">{{ post.title.slice(0, 33) }}...</h2>  
                             <p class="post-body">{{ post.body.slice(0, 100) }}...</p>
                         </div>
