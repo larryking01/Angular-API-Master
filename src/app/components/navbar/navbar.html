@@ -1,3 +1,6 @@
-<header (click)="goToHome()">
-    <h3>Inkboard</h3>
+<header>
+    <h3 (click)="goToHome()">Inkboard</h3>
+
+    <button *ngIf="!isLoggedIn()" (click)="login()">Login</button>
+    <button *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
 </header>

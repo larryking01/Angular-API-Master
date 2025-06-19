@@ -4,6 +4,9 @@ import { EditPost } from './components/edit-post/edit-post';
 import { PostDetails } from './components/post-details/post-details';
 import { CreatePost } from './components/create-post/create-post';
 import { NotFound } from './components/not-found/not-found';
+import { authGuard } from './guards/auth-guard-guard';
+
+
 
 
 export const routes: Routes = [
@@ -14,7 +17,9 @@ export const routes: Routes = [
     },
     {
         path: 'create-post',
-        component: CreatePost,
+        canActivate: [authGuard],
+        loadComponent: () => import('./components/create-post/create-post').then((m) => m.CreatePost),
+        // component: CreatePost,
         title: 'Create Post'
     },
     {
@@ -24,7 +29,9 @@ export const routes: Routes = [
     },
     {
         path: 'edit-post/:postID',
-        component: EditPost,
+        // component: EditPost,
+        canActivate: [authGuard],
+        loadComponent: () => import('./components/edit-post/edit-post').then((m) => m.EditPost),
         title: 'Edit Post'
     },
     {

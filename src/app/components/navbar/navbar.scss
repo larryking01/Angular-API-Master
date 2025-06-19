@@ -1,7 +1,11 @@
+@use '../../../styling/reusables' as *;
+
+
 header {
     height: 5rem;
     width: 100%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
     // box-shadow: ;
@@ -13,4 +17,17 @@ header {
 h3 {
     font-style: italic;
     font-size: 1.5rem;
+}
+
+
+button {
+    border: none;
+    cursor: pointer;
+    color: #fff;;
+    background-color: $primary-color;
+    width: 6rem;
+    height: 2.5rem;
+    border-radius: 0.625rem;
+    font-size: 1rem;
+
 }
