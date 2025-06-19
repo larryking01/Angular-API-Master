@@ -27,6 +27,7 @@
         justify-content: space-between;
         height: 100%;
         padding: 2rem 0 0 0;
+
     }
 
     .post-title-div {
@@ -80,4 +81,17 @@
 
 
 
+}
+
+
+
+
+
+/* mobile responsiveness */
+@media (max-width: 599px) {
+    .create-post {
+    //    background-color: red;
+       max-width: 80%;
+    //    overflow: hidden;
+    }
 }

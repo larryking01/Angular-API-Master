@@ -2,11 +2,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api-service';
 import { PostInterface } from '../../../shared/model';
+import { Navbar } from '../navbar/navbar';
 
 
 @Component({
   selector: 'app-post-details',
-  imports: [],
+  imports: [Navbar],
   templateUrl: './post-details.html',
   styleUrl: './post-details.scss'
 })
