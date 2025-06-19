@@ -4,12 +4,12 @@ import { ApiService } from '../../services/api-service';
 import { PostInterface } from '../../../shared/model';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
-
+import { Pagination } from '../pagination/pagination';
 
 
 @Component({
   selector: 'app-list-posts',
-  imports: [ CommonModule, Navbar ],
+  imports: [ CommonModule, Navbar, Pagination ],
   templateUrl: './list-posts.html',
   styleUrl: './list-posts.scss'
 })
@@ -42,7 +42,7 @@ export class ListPosts implements OnInit {
 
   }
 
-  
+
   loadPosts() {
     this.apiService.fetchAllPosts(this.currentPage, this.limit)
   }
@@ -60,6 +60,11 @@ export class ListPosts implements OnInit {
       this.currentPage--
       this.loadPosts()
     }
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.loadPosts();
   }
 
 

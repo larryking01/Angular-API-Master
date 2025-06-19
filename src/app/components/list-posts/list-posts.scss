@@ -8,6 +8,10 @@ main {
         padding: 2rem;
         // background-color: red;
 
+        .total-posts-header {
+            font-size: 1.3rem;
+        }
+
         .new-post-btn {
             width: 8rem;
             margin-bottom: 2rem;
@@ -21,7 +25,7 @@ main {
         .intro-div {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             // background-color: yellow;
         }
 
@@ -88,6 +92,24 @@ main {
 }
 
 
-.pagination {
 
+
+
+@media (max-width: 599px) {
+    .intro-div {
+        display: flex;
+        flex-direction: column;
+        
+        // background-color: yellow;
+    }
+}
+
+
+@media (min-width: 600px) and (max-width: 1023px) {
+    .intro-div {
+        display: flex;
+        flex-direction: column;
+        
+        // background-color: yellow;
+    }
 }
