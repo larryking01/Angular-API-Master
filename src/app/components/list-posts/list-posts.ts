@@ -4,12 +4,12 @@ import { ApiService } from '../../services/api-service';
 import { PostInterface } from '../../../shared/model';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
-
+import { Pagination } from '../pagination/pagination';
 
 
 @Component({
   selector: 'app-list-posts',
-  imports: [ CommonModule, Navbar ],
+  imports: [ CommonModule, Navbar, Pagination ],
   templateUrl: './list-posts.html',
   styleUrl: './list-posts.scss'
 })
@@ -20,19 +20,51 @@ export class ListPosts implements OnInit {
 
   router = inject(Router);
 
+  // for pagination
+  currentPage = 1
+  limit = 10
+  totalPosts = 0
+  totalPages = 0
+
+
   ngOnInit(): void {
 
-    // this.apiService.clearPostsCache();
-    this.apiService.fetchAllPosts();
-
+    this.loadPosts();
 
     this.apiService.AllPostsArray$.subscribe({
-      next: (( data: PostInterface[]) => {
-        this.PostsArray = data;
-        console.log('all posts = ', this.PostsArray)
-      })
-
+      next: ( posts => this.PostsArray = posts)
     })
+
+    this.apiService.totalPosts$.subscribe( total => {
+      this.totalPosts = total
+      this.totalPages = Math.ceil(this.totalPosts / this.limit);
+    })
+
+  }
+
+
+  loadPosts() {
+    this.apiService.fetchAllPosts(this.currentPage, this.limit)
+  }
+
+
+  goToNext() {
+    if( this.currentPage < this.totalPages ) {
+      this.currentPage++
+      this.loadPosts()
+    }
+  }
+
+  goToPrevious() {
+    if( this.currentPage > 1) {
+      this.currentPage--
+      this.loadPosts()
+    }
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.loadPosts();
   }
 
 

@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, of, throwError, retry, tap } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { PostInterface, CommentInterface } from '../../shared/model';
 import { ErrorService } from './error-service';
 import { CacheService } from './cache-service';
@@ -15,12 +15,14 @@ export class ApiService {
   private AllPostsArray = new BehaviorSubject<PostInterface[]>([])
   AllPostsArray$ = this.AllPostsArray.asObservable()
 
+  private totalPostsSubject = new BehaviorSubject<number>(0)
+  totalPosts$ = this.totalPostsSubject.asObservable()
+
   httpClient = inject( HttpClient )
   errorService = inject( ErrorService )
   cacheService = inject( CacheService )
 
   baseUrl = `${ environment.apiBaseUrl }/posts`
-
 
   constructor() {
     // this.fetchAllPosts()
@@ -33,34 +35,50 @@ export class ApiService {
   }
 
 
-  fetchAllPosts() {
+  fetchAllPosts(page = 1, limit = 10) {
 
-    // const cacheKey = url;
+
+    const url = `${ this.baseUrl }?_page=${ page }&_limit=${ limit }`
+    const cacheKey = url;
+
     const cachedData = this.cacheService.get(this.baseUrl);
-
     if (cachedData) {
       this.AllPostsArray.next(cachedData);
       console.log('[CACHE] Loaded posts from cache');
       return;
     }
     
-    this.httpClient.get<PostInterface[]>(this.baseUrl)
+    this.httpClient.get<PostInterface[]>( url, { observe: 'response' })
     .pipe(
       retry(2),
       catchError(( err ) => {
         this.errorService.handleAPIRequestError( err ); // centralized error handling
-        return of([]) // fallback value to avoid app craching
+        // return of([]) // fallback value to avoid app craching
+        return of({ body: [] })
       })
     )
-    // .subscribe({
-    //   next: ( data => this.AllPostsArray.next( data )),
-    // })
-    .subscribe((data) => {
-      this.AllPostsArray.next(data);
-      this.cacheService.set(this.baseUrl, data);
-      console.log('[API] Fetched posts and cached them');
-    });
+    .subscribe(( res ) => {
+      const posts = res.body ?? [];
+      this.AllPostsArray.next( posts )
+
+
+      if( res instanceof HttpResponse ) {
+        // Get total count from header for pagination
+        const totalCount = res.headers.get('X-Total-Count');
+        this.totalPostsSubject.next(Number( totalCount ))
+        console.log(`[API] Fetched page ${page}, total = ${totalCount}`);   
+
+      }
+
+      // caching it.
+      this.cacheService.set( cacheKey, posts)
+
+    
+    })
   }
+
+
+
 
 
   createNewPost(post: PostInterface) {

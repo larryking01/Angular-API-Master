@@ -3,20 +3,22 @@
 
     <section class="main-section">
         <div class="intro-div">
-            <h2>Total Posts: {{ PostsArray.length }}</h2>
-            <button (click)="navigateToCreateNewPost()" class="new-post-btn">+ New Post</button>
-            <!-- <button (click)="apiService.clearPostsCache()">Clear Posts Cache</button> -->
+            <h2 class="total-posts-header">Total Posts: {{ totalPosts }}</h2>
+            <app-pagination
+                *ngIf="totalPosts > 0"
+                [totalItems]="totalPosts"
+                [itemsPerPage]="limit"
+                [currentPage]="currentPage"
+                (pageChanged)="onPageChange($event)">
+            </app-pagination>
         </div>
+
+        <button (click)="navigateToCreateNewPost()" class="new-post-btn">+ New Post</button>
 
         <article class="post-list-container">
                 @for( post of PostsArray; track $index ) {
                     <section class="post-card">
                         <div class="post-info-div">
-                            <!-- <img 
-                                src="https://www.kindpng.com/picc/m/420-4204525_commentary-commentary-icon-png-transparent-png.png"
-                                class="post-user-image" alt="post man"
-                                > -->
-                        
                             <img 
                                 src="https://img.favpng.com/13/2/23/dialogue-assets-icon-comment-icon-chat-icon-Wq0hTNDy.jpg"
                                 class="post-user-image" alt="post-ivon" >
@@ -40,4 +42,6 @@
             </article>
 
     </section>
+
+
 </main>

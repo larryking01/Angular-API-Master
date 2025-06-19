@@ -1,3 +1,6 @@
+@use '../../../styling/reusables' as *;
+
+
 .main-wrapper {
     max-width: 100%;
     // min-width: 50%;
@@ -12,13 +15,19 @@
     // max-width: 80%;
     min-width: 50%;
     height: 70vh;
-    margin: 3rem auto;
+    margin: 2rem auto;
     display: flex;
     flex-direction: column;
 
-    // label {
-    //     margin-bottom: 1rem;
-    // }
+    label {
+        font-weight: bold;
+    }
+
+    .create-post-header {
+        color: $primary-color;
+        font-size: 2rem;
+        margin-bottom: 0.2rem;
+    }
 
     form {
         // background-color: green;
@@ -45,6 +54,7 @@
         border: 1px solid grey;
         padding: 1rem;
         margin-top: 0.5rem;
+        font-size: 1rem;
     }
 
     .post-body {
@@ -53,6 +63,7 @@
         width: 100%;
         border-radius: 0.625rem;
         border: 1px solid grey;
+        font-size: 1rem;
     }
 
     .action-btn-article {
@@ -62,20 +73,24 @@
 
     .create-post-btn {
         width: 80%;
-        background-color: blue;
+        background-color: $primary-color;
         color: white;
-        height: 4rem;
+        height: 3rem;
         border: none;
         border-radius: 0.625rem;
+        font-size: 1.1rem;
+        cursor: pointer;
     }
 
     .cancel-post-btn {
         width: 80%;
-        background-color: black;
+        background-color: $cancel-btn-bg;
         color: white;
-        height: 4rem;
+        height: 3rem;
         border: none;
         border-radius: 0.625rem;
+        font-size: 1.1rem;
+        cursor: pointer;
     }
 
 
