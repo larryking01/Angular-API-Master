@@ -5,6 +5,7 @@ import { ApiService } from '../../services/api-service';
 import { ActivatedRoute } from '@angular/router';
 import { PostInterface } from '../../../shared/model';
 import { Navbar } from '../navbar/navbar';
+import { ToastService } from '../../services/toast-service';
 
 
 @Component({
@@ -22,12 +23,7 @@ export class EditPost implements OnInit {
 
   router = inject(Router)
 
-  updatedPostItem: PostInterface = {
-    userId: 1000,
-    id: 2000,
-    title: "Radioactivity",
-    body: "Science is exciting"
-  }
+  toastService = inject( ToastService )
 
 
   editForm = new FormGroup({
@@ -70,10 +66,10 @@ export class EditPost implements OnInit {
       }
       this.apiService.editPost(Number.parseInt( this.selectedPostID ), updatedPost);
       console.log("updated post = ", updatedPost)
+      this.toastService.showToast("Post updated successfully !...")
       setTimeout(() => {
         this.goToHome()
-        
-      }, 1000)
+      }, 1500)
     }
 
   }

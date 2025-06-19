@@ -1,10 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api-service';
 import { PostInterface } from '../../../shared/model';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
 import { Pagination } from '../pagination/pagination';
+import { ErrorService } from '../../services/error-service';
+import { AuthService } from '../../services/auth-service';
 
 
 @Component({
@@ -16,9 +18,16 @@ import { Pagination } from '../pagination/pagination';
 export class ListPosts implements OnInit {
   PostsArray: PostInterface[] = [];
 
+
   apiService = inject(ApiService);
 
   router = inject(Router);
+
+  authService = inject( AuthService )
+
+  errorService = inject( ErrorService )
+
+  isLoggedIn = computed(() => this.authService.isAuthenticated());
 
   // for pagination
   currentPage = 1
@@ -27,8 +36,8 @@ export class ListPosts implements OnInit {
   totalPages = 0
 
 
-  ngOnInit(): void {
 
+  ngOnInit(): void {
     this.loadPosts();
 
     this.apiService.AllPostsArray$.subscribe({
@@ -69,30 +78,55 @@ export class ListPosts implements OnInit {
 
 
   navigateToCreateNewPost() {
-    this.router.navigate(['create-post'])
+    if( !this.isLoggedIn() ) {
+      let error = new Error("Login is required to create a post")
+      this.errorService.handleAPIRequestError(error)
+    }
+    else {
+      this.router.navigate(['create-post'])
+    }
+
   }
 
 
   navigateToEditPost(postId: number) {
-    this.router.navigate(['edit-post', postId])
+    if( !this.isLoggedIn() ) {
+      let error = new Error("Login is required to edit a post")
+      this.errorService.handleAPIRequestError(error)
+    }
+    else {
+      this.router.navigate(['edit-post', postId])
+    }
+
   }
 
   
   navigateToPostDetails(postId: number) {
-    this.router.navigate(['post-details', postId])
+    if( !this.isLoggedIn() ) {
+      let error = new Error("Login is required to use this feature")
+      this.errorService.handleAPIRequestError(error)
+    }
+    else {
+      this.router.navigate(['post-details', postId])
+    }
   }
 
 
   deletePostItem(postId: number) {
-    this.apiService.deletePost( postId )
+    if( !this.isLoggedIn() ) {
+      let error = new Error("Login is required to delete a post")
+      this.errorService.handleAPIRequestError(error)
+    }
+    else {
+      // delete modal
+      this.apiService.deletePost( postId )
+    }
   }
   
 
   clearPostsCache() {
     this.apiService.clearPostsCache()
   }
-
-
-
+  
 
 }
