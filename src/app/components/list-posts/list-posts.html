@@ -5,6 +5,7 @@
         <div class="intro-div">
             <h2 class="total-posts-header">Total Posts: {{ totalPosts }}</h2>
             <app-pagination
+                *ngIf="totalPosts > 0"
                 [totalItems]="totalPosts"
                 [itemsPerPage]="limit"
                 [currentPage]="currentPage"

@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ApiService } from '../../services/api-service';
 import { ActivatedRoute } from '@angular/router';
 import { PostInterface } from '../../../shared/model';
@@ -18,6 +19,8 @@ export class EditPost implements OnInit {
   activatedRoute = inject( ActivatedRoute )
   selectedPostID: string = ''
   oldPostItem: PostInterface | null = null
+
+  router = inject(Router)
 
   updatedPostItem: PostInterface = {
     userId: 1000,
@@ -67,8 +70,17 @@ export class EditPost implements OnInit {
       }
       this.apiService.editPost(Number.parseInt( this.selectedPostID ), updatedPost);
       console.log("updated post = ", updatedPost)
+      setTimeout(() => {
+        this.goToHome()
+        
+      }, 1000)
     }
 
+  }
+
+
+  goToHome() {
+    this.router.navigate(['/'])
   }
 
 

@@ -1,3 +1,6 @@
+@use '../../../styling/reusables' as *;
+
+
 .pagination-wrapper {
   display: flex;
   justify-content: center;
@@ -5,8 +8,10 @@
 //   margin-top: 2rem;
 
   .pagination-buttons {
-    // display: flex;
-    // flex-wrap: wrap;
+
+    button {
+        margin-right: 0.5rem;
+    }
   }
 
   button {
@@ -17,7 +22,7 @@
     border-radius: 4px;
 
     &.active {
-      background-color: maroon;
+      background-color: $primary-color;
       color: white;
     }
 

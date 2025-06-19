@@ -2,15 +2,10 @@
     <app-navbar></app-navbar>
 
     <section class="create-post">
+        <h3 class="edit-post-header">Edit Post</h3>
+        <p class="intro-text">Need to make a few changes? Give your post a little polish</p>
+        
         <form [formGroup]="editForm" (ngSubmit)="handleEditPostItem()">
-            <!-- <label for="postTitle">Post Title</label>
-            <input type="text" id="postTitle" class="post-title" formControlName="postTitle">
-
-            <label for="postBody">Post Body</label>
-            <input type="text" id="postBody" class="post-body" formControlName="postBody">
-
-            <button type="submit" class="create-post-btn">Edit Post</button> -->
-
             <article>
                 <div class="post-title-div">
                     <label for="postTitle">Post Title</label>
@@ -22,7 +17,7 @@
                 <div class="post-body-div">
                     <label for="postBody">Post Body</label>
                     <div>
-                        <textarea type="text" class="post-body" id="postBody" formControlName="postBody" rows="14">
+                        <textarea type="text" class="post-body" id="postBody" formControlName="postBody" rows="10">
                         </textarea>
                     </div>
                 </div>

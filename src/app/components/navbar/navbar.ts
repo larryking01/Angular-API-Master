@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router'
+
+
 
 @Component({
   selector: 'app-navbar',
@@ -7,5 +10,12 @@ import { Component } from '@angular/core';
   styleUrl: './navbar.scss'
 })
 export class Navbar {
+
+  router = inject( Router )
+
+
+  goToHome() {
+    this.router.navigate(['/'])
+  }
 
 }

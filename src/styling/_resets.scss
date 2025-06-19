@@ -1,3 +1,5 @@
+@use './reusables' as *;
+
 * {
     margin: 0;
     border: 0;
@@ -13,5 +15,5 @@ html {
 body {
     max-width: 100%;
     height: 100vh;
-    background-color: #F5F5F5;
+    background-color: $body-bg;
 }
