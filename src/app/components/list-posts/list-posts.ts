@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api-service';
 import { PostInterface } from '../../../shared/model';
@@ -20,19 +20,43 @@ export class ListPosts implements OnInit {
 
   router = inject(Router);
 
+  // for pagination
+  currentPage = 1
+  limit = 10
+  totalPosts = 100
+  totalPages = 0
+
+
   ngOnInit(): void {
 
-    // this.apiService.clearPostsCache();
-    this.apiService.fetchAllPosts();
-
+    this.loadPosts();
 
     this.apiService.AllPostsArray$.subscribe({
-      next: (( data: PostInterface[]) => {
-        this.PostsArray = data;
-        console.log('all posts = ', this.PostsArray)
-      })
-
+      next: ( posts => this.PostsArray = posts)
     })
+
+
+  }
+
+  loadPosts() {
+    this.apiService.fetchAllPosts(this.currentPage, this.limit)
+    this.totalPosts = this.apiService.totalPosts
+    this.totalPages = Math.ceil(this.totalPosts / this.limit)
+  }
+
+
+  goToNext() {
+    if( this.currentPage < this.totalPages ) {
+      this.currentPage++
+      this.loadPosts()
+    }
+  }
+
+  goToPrevious() {
+    if( this.currentPage > 1) {
+      this.currentPage--
+      this.loadPosts()
+    }
   }
 
 

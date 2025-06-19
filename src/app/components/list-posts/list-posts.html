@@ -3,10 +3,16 @@
 
     <section class="main-section">
         <div class="intro-div">
-            <h2>Total Posts: {{ PostsArray.length }}</h2>
-            <button (click)="navigateToCreateNewPost()" class="new-post-btn">+ New Post</button>
+            <h2>Total Posts: {{ totalPosts }}</h2>
+            <section class="pagination">
+                <button [disabled]="currentPage === 1" (click)="goToPrevious()">Prev</button>
+                <span>Page {{ currentPage }} of {{ totalPages }}</span>
+                <button [disabled]="currentPage === totalPages" (click)="goToNext()">Next</button>
+            </section>
             <!-- <button (click)="apiService.clearPostsCache()">Clear Posts Cache</button> -->
         </div>
+
+        <button (click)="navigateToCreateNewPost()" class="new-post-btn">+ New Post</button>
 
         <article class="post-list-container">
                 @for( post of PostsArray; track $index ) {
@@ -40,4 +46,6 @@
             </article>
 
     </section>
+
+
 </main>
