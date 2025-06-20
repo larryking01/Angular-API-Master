@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api-service';
@@ -6,11 +7,11 @@ import { ActivatedRoute } from '@angular/router';
 import { PostInterface } from '../../../shared/model';
 import { Navbar } from '../navbar/navbar';
 import { ToastService } from '../../services/toast-service';
-
+import { ReusableNotFound } from '../reusable-not-found/reusable-not-found';
 
 @Component({
   selector: 'app-edit-post',
-  imports: [ReactiveFormsModule, Navbar],
+  imports: [ReactiveFormsModule, CommonModule, Navbar, ReusableNotFound],
   templateUrl: './edit-post.html',
   styleUrl: './edit-post.scss'
 })
@@ -24,6 +25,11 @@ export class EditPost implements OnInit {
   router = inject(Router)
 
   toastService = inject( ToastService )
+
+  noPostItemFound: boolean = false;
+
+  errorInfoText = 'Oops, we could not load the details of your selected post because it was not on our server.....'
+  goToHomeBtnText = 'Back to home'
 
 
   editForm = new FormGroup({
@@ -45,7 +51,11 @@ export class EditPost implements OnInit {
           postBody: this.oldPostItem.body
         })
       }),
-      error: ( err => console.log('edit error, cannot find post ', err ))
+      error: ( err => { 
+        console.log('edit error, cannot find post ', err )
+        console.log("from error post detail = ", this.oldPostItem )
+        this.noPostItemFound = true
+      })
     })
     
   }

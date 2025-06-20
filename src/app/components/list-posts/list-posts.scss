@@ -89,6 +89,75 @@ main {
             cursor: pointer;
         }
 
+
+        .delete-modal-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.06);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+
+        .modal {
+            width: 20rem;
+            height: 15rem;
+            background-color: #fff;
+            border-radius: 0.625rem;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+
+            h3 {
+                margin-bottom: 1rem;
+            }
+
+            p {
+                margin-bottom: 1rem;
+            }
+
+            .delete-post-title {
+                color: darkslategrey;
+            }
+
+
+            .modal-action-btns {
+                display: flex;
+                justify-content: space-between;
+                gap: 1rem;
+            }
+
+
+            .modal-yes-delete-btn {
+                background-color: red;
+                width: 7rem;
+                height: 2.7rem;
+
+            }
+
+
+            .modal-cancel-btn {
+                background-color: $cancel-btn-bg;
+                width: 7rem;
+                height: 2.7rem;
+            }
+
+
+
+        }
+
+
+
+
+
+
     }
 
 }

@@ -29,6 +29,10 @@ export class ListPosts implements OnInit {
 
   isLoggedIn = computed(() => this.authService.isAuthenticated());
 
+  showDeleteModal: boolean = false;
+
+  selectedPostID: number | null = null;
+
   // for pagination
   currentPage = 1
   limit = 10
@@ -113,19 +117,33 @@ export class ListPosts implements OnInit {
 
 
   deletePostItem(postId: number) {
-    if( !this.isLoggedIn() ) {
-      let error = new Error("Login is required to delete a post")
-      this.errorService.handleAPIRequestError(error)
-    }
-    else {
-      // delete modal
+      console.log("post to delete id = ", postId )
       this.apiService.deletePost( postId )
-    }
+      this.closeDeleteModal()
   }
   
 
   clearPostsCache() {
     this.apiService.clearPostsCache()
+  }
+
+
+  openDeleteModal(postID: number) {
+    if( !this.isLoggedIn() ) {
+      let error = new Error("Login is required to delete a post")
+      this.errorService.handleAPIRequestError(error)
+    }
+    else {
+      this.selectedPostID = postID;
+      this.showDeleteModal = true
+      console.log("show modal = ", this.showDeleteModal )
+    }
+  }
+
+  closeDeleteModal() {
+    this.selectedPostID = null
+    this.showDeleteModal = false
+    console.log("show modal = ", this.showDeleteModal )
   }
   
 
