@@ -14,13 +14,19 @@ export class ErrorService {
   constructor() { }
 
   handleAPIRequestError( error: any ) {
-    if(error?.error?.message) {
+    if( typeof error === 'string') {
+      this.message = error;
+    }
+    else if( error instanceof Error ) {
+      this.message = error.message
+    }
+    else if(error?.error?.message) {
       this.message = error.error.message
     }
     else {
       switch( error.status ) {
         case 404:
-          this.message = 'Sorry, requested resource was not found'
+          this.message = "Sorry, we couldn't find the details of the post requested..."
           break
         case 500:
           this.message = 'Server error. Please try again later.'

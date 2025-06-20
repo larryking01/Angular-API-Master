@@ -13,6 +13,21 @@ header {
     cursor: pointer;
 }
 
+.user-logged-in-div {
+    // background-color: red;
+    width: 10rem;
+    display: flex;
+    justify-content: space-between;
+
+    
+}
+
+.user-avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+}
+
 
 h3 {
     font-style: italic;
@@ -29,5 +44,6 @@ button {
     height: 2.5rem;
     border-radius: 0.625rem;
     font-size: 1rem;
+    align-self: center;
 
 }

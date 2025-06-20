@@ -1,11 +1,11 @@
 <main>
     <app-navbar></app-navbar>
 
-    <section class="details-content">
+    <section class="details-content" *ngIf="postDetail !== null">
         <article class="post-details-article">
             <h2>Full Post Details</h2>
-            <h4>{{ postDetail?.title }}</h4>
-            <p>{{ postDetail?.body }}</p>
+            <h4>{{ postDetail.title }}</h4>
+            <p>{{ postDetail.body }}</p>
         </article>
 
         <article class="post-comments-article">
@@ -18,6 +18,11 @@
                 </div>
             }
         </article>
+    </section>
+
+
+    <section *ngIf="noPostDetailFound">
+        <app-reusable-not-found [errorInfoText]="errorInfoText" [goToHomeBtnText]="goToHomeBtnText"></app-reusable-not-found>
     </section>
 
 </main>

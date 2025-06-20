@@ -1,7 +1,7 @@
 <main class="main-wrapper">
     <app-navbar></app-navbar>
 
-    <section class="create-post">
+    <section class="create-post" *ngIf="oldPostItem !== null">
         <h3 class="edit-post-header">Edit Post</h3>
         <p class="intro-text">Need to make a few changes? Give your post a little polish</p>
         
@@ -29,4 +29,12 @@
             </article>
         </form>
     </section>
+
+
+    <section *ngIf="noPostItemFound">
+        <app-reusable-not-found [errorInfoText]="errorInfoText" [goToHomeBtnText]="goToHomeBtnText"></app-reusable-not-found>
+    </section>
+
+
+
 </main>

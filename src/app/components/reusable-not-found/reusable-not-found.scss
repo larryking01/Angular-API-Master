@@ -1,0 +1,45 @@
+@use '../../../styling/reusables' as *;
+
+
+.reusable-not-found-wrapper {
+    // background-color: red;
+    max-width: 40rem;
+    margin: 4rem auto;
+}
+
+
+.not-found-image-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.not-found-image {
+    width: 80%;
+    margin-bottom: 2rem;
+}
+
+
+.not-found-info-div {
+    display: flex;
+    flex-direction: column;
+}
+
+p {
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+
+button {
+    border: none;
+    cursor: pointer;
+    width: 8rem;
+    height: 3rem;
+    color: white;
+    background-color: $primary-color;
+    border-radius: 0.65rem;
+    align-self: center;
+    font-size: 1rem;
+}
