@@ -10,6 +10,14 @@
                 <div class="post-title-div">
                     <label for="postTitle">Post Title</label>
                     <div>
+                        <div class="error" *ngIf="editForm.controls['postTitle'].invalid && (formSubmitted || editForm.controls['postTitle'].touched)">
+                            <small *ngIf="editForm.controls['postTitle'].errors?.['required']">
+                                Title is required.
+                            </small>
+                            <small *ngIf="editForm.controls['postTitle'].errors?.['minlength']">
+                                Title must be at least 8 characters long.
+                            </small>
+                        </div>                        
                         <input type="text" class="post-title" id="postTitle" formControlName="postTitle" />
                     </div>
                 </div>
@@ -17,6 +25,11 @@
                 <div class="post-body-div">
                     <label for="postBody">Post Body</label>
                     <div>
+                        <div class="error" *ngIf="editForm.controls['postBody'].invalid && (formSubmitted || editForm.controls['postBody'].touched)">
+                            <small *ngIf="editForm.controls['postBody'].errors?.['required']">
+                                Body is required.
+                            </small>
+                        </div>                    
                         <textarea type="text" class="post-body" id="postBody" formControlName="postBody" rows="10">
                         </textarea>
                     </div>
@@ -25,7 +38,7 @@
 
             <article class="action-btn-article">
                 <button type="submit" class="create-post-btn">Edit Post</button>
-                <button type="submit" class="cancel-post-btn">Cancel</button>
+                <button type="button" class="cancel-post-btn" (click)="goToHome()">Cancel</button>
             </article>
         </form>
     </section>

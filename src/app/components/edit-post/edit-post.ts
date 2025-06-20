@@ -28,12 +28,14 @@ export class EditPost implements OnInit {
 
   noPostItemFound: boolean = false;
 
+  formSubmitted = false;
+
   errorInfoText = 'Oops, we could not load the details of your selected post because it was not on our server.....'
   goToHomeBtnText = 'Back to home'
 
 
   editForm = new FormGroup({
-    postTitle: new FormControl('', Validators.required ),
+    postTitle: new FormControl('', [Validators.required, Validators.minLength(8)] ),
     postBody: new FormControl('', Validators.required)
   })
 
@@ -62,9 +64,12 @@ export class EditPost implements OnInit {
 
 
   handleEditPostItem() {
-    this.editForm.markAllAsTouched();
+    this.formSubmitted = true;
+
     if( this.editForm.invalid ) {
       console.log('all fields are required')
+      this.editForm.markAllAsTouched();
+      return;
     }
     else {
       console.log("old post = ", this.oldPostItem)
@@ -88,12 +93,6 @@ export class EditPost implements OnInit {
   goToHome() {
     this.router.navigate(['/'])
   }
-
-
-
-
-
-
 
 
 }

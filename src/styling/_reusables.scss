@@ -5,3 +5,25 @@ $accent-color: #F0F0F0;
 $post-card-bg2: #f0dbc4;
 $body-bg: white;
 $cancel-btn-bg: #303030;
+
+
+
+
+@mixin primary-btn-styling() {
+    background-color: $primary-color;
+    color: white;
+    border-radius: 0.625rem;
+    padding: 1rem;
+    cursor: pointer;
+    width: 8rem;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+
+
+    &:hover {
+        box-shadow:
+        0 0 10px rgba(143, 0, 255, 0.6),
+        0 0 20px rgba(143, 0, 255, 0.4);
+        transform: scale(1.03);
+    }            
+
+}

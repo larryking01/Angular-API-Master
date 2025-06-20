@@ -28,9 +28,18 @@
                         </div>
 
                         <div class="action-buttons-div">
-                            <button (click)="navigateToEditPost(post.id)">Edit</button>
-                            <button (click)="openDeleteModal(post.id)">Delete</button>
-                            <button (click)="navigateToPostDetails(post.id)">Details</button>
+                            <button (click)="navigateToEditPost(post.id)" title="Edit Post">
+                                <img src="/assets/edit-icon.png" class="list-action-icon" alt="edit-icon"> 
+                            </button>
+
+                            <button (click)="openDeleteModal(post.id)" title="Delete Post">
+                                <img src="/assets/delete-icon.png" class="list-action-icon"  alt="delete-icon">
+                            </button>
+
+
+                            <button (click)="navigateToPostDetails(post.id)" title="Post Details">
+                                <img src="/assets/info-icon.png" class="list-action-icon" alt="info-icon">
+                            </button>
                         </div>
 
 

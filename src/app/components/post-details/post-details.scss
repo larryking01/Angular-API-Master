@@ -4,21 +4,25 @@
 main {
     max-width: 100%;
     height: 100vh;
-    // background-color: red;
 }
 
 
 .details-content {
-    // background-color: yellow;
     max-width: 60rem;
     margin: 3rem auto;
     height: auto;
 
 
+    .full-post-details-text {
+        color: $primary-color;
+        margin-bottom: 2rem;
+    }
+
 
     .post-details-article {
         margin-bottom: 2rem;
     }
+
 }
 
 
@@ -46,5 +50,18 @@ main {
 
     h4 {
         font-weight: normal;
+    }
+
+
+}
+
+
+
+
+
+/* responsiveness */
+@media (max-width: 1023px) {
+    .details-content {
+        padding: 0 2rem;
     }
 }

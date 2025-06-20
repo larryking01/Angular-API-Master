@@ -2,17 +2,14 @@
 
 .main-wrapper {
     max-width: 100%;
-    // min-width: 50%;
-    // background-color: red;
     height: 100vh
 }
 
 
 .create-post {
-    // background-color: yellow;
     max-width: 35rem;
-    // max-width: 80%;
     min-width: 50%;
+    padding: 0 2rem;
     height: 70vh;
     margin: 2rem auto;
     display: flex;
@@ -29,7 +26,6 @@
     }
 
     form {
-        // background-color: green;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -72,28 +68,22 @@
     }
 
     .create-post-btn {
+        @include primary-btn-styling();
         width: 80%;
-        background-color: $primary-color;
-        color: white;
-        height: 3rem;
-        border: none;
-        border-radius: 0.625rem;
-        font-size: 1.1rem;
-        cursor: pointer;
     }
 
     .cancel-post-btn {
-        width: 80%;
+        @include primary-btn-styling();
         background-color: $cancel-btn-bg;
-        color: white;
-        height: 3rem;
-        border: none;
-        border-radius: 0.625rem;
-        font-size: 1.1rem;
-        cursor: pointer;
+        width: 80%;
+        
     }
 
 
+    small{
+        color: red;
+        font-size: 1rem;
+    }
 
 }
 
@@ -104,8 +94,6 @@
 /* mobile responsiveness */
 @media (max-width: 599px) {
     .create-post {
-    //    background-color: red;
        max-width: 80%;
-    //    overflow: hidden;
     }
 }

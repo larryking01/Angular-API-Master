@@ -1,34 +1,35 @@
 @use '../../../styling/reusables' as *;
 
 main {
-    // background-color: green;
     max-width: 100%;
-
 
 
     .main-section {
         padding: 2rem;
-        // background-color: red;
 
+        
         .total-posts-header {
             font-size: 1.3rem;
         }
 
         .new-post-btn {
+            @include primary-btn-styling();
             width: 8rem;
             margin-bottom: 2rem;
-            background-color: $primary-color;
-            color: white;
-            border-radius: 0.625rem;
-            padding: 1rem;
-            cursor: pointer;
+
         }
 
+        
         .intro-div {
             display: flex;
             justify-content: space-between;
             margin-bottom: 3rem;
-            // background-color: yellow;
+        }
+
+
+        .list-action-icon {
+            width: 30px;
+            height: 30px;
         }
 
 
@@ -36,28 +37,19 @@ main {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
             gap: 1.5rem;
-            // background-color: green;
-            // width: 100%;
         }
 
 
         .post-card {
-            // max-width: 21rem;
             height: 19rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            // background-color: antiquewhite;
             background-color: $accent-color;
             border-radius: 0.625rem;
             padding: 1rem;
             box-shadow: 4px 2px 6px rgba(0, 0, 0, 0.1);
         }
-
-
-        // .post-info-div {
-
-        // }
 
         .post-user-image {
             width: 4rem;
@@ -81,12 +73,10 @@ main {
         }
 
         button {
-            background-color: $primary-color;
-            width: 4.5rem;
-            color: white;
-            border-radius: 0.625rem;
-            padding: 0.5rem;
-            cursor: pointer;
+            @include primary-btn-styling();
+            width: 3rem;
+            padding: 0.3rem;
+
         }
 
 
@@ -149,14 +139,7 @@ main {
                 height: 2.7rem;
             }
 
-
-
         }
-
-
-
-
-
 
     }
 
@@ -170,8 +153,6 @@ main {
     .intro-div {
         display: flex;
         flex-direction: column;
-        
-        // background-color: yellow;
     }
 }
 
@@ -180,7 +161,5 @@ main {
     .intro-div {
         display: flex;
         flex-direction: column;
-        
-        // background-color: yellow;
     }
 }
