@@ -30,17 +30,14 @@ export class PostDetails implements OnInit {
 
   ngOnInit(): void {
     let selectedPostID = this.activatedRoute.snapshot.paramMap.get('postID');
-    console.log('post detail id = ', selectedPostID );
 
     
     
     this.apiService.getPostDetails( selectedPostID as string ).subscribe({
       next: ( data => {
         this.postDetail = data;
-        console.log("post detail = ", this.postDetail )
       }),
       error: ( err => { 
-        console.log('error, cannot find post ', err )
         this.noPostDetailFound = true
       })
     })
@@ -49,12 +46,8 @@ export class PostDetails implements OnInit {
     this.apiService.getPostComments(selectedPostID as string).subscribe({
       next: ( data => {
         this.postComments = data;
-        console.log('comments for selected post', this.postComments)
       })
     })
-
-    
-
   }
 
 }

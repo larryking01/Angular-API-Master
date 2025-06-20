@@ -19,7 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
 
-    // Clone the request and add Authorization header if token exists
+    
     const authReq = token
       ? req.clone({
           setHeaders: {
@@ -29,13 +29,12 @@ export class AuthInterceptor implements HttpInterceptor {
       : req;
 
     // Log request
-    console.log('🔼 Outgoing Request:', authReq);
+    console.log('Outgoing Request:', authReq);
 
     return next.handle(authReq).pipe(
       tap((event) => {
         if (event instanceof HttpResponse) {
-          // Log response
-          console.log('🔽 Incoming Response:', event);
+          console.log('Incoming Response:', event);
         }
       })
     );

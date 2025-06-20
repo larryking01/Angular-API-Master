@@ -3,7 +3,8 @@
 
     <section class="main-section">
         <div class="intro-div">
-            <h2 class="total-posts-header">Total Posts: {{ totalPosts }}</h2>
+            <!-- <h2 class="total-posts-header">Total Posts: {{ totalPosts }}</h2> -->
+            <h2 class="total-posts-header">See what's going on</h2>
             <app-pagination
                 *ngIf="totalPosts > 0"
                 [totalItems]="totalPosts"
@@ -24,7 +25,7 @@
                                 class="post-user-image" alt="post-ivon" >
 
                             <h2 class="post-title">{{ post.title.slice(0, 33) }}...</h2>  
-                            <p class="post-body">{{ post.body.slice(0, 100) }}...</p>
+                            <p class="post-body">"{{ post.body.slice(0, 100) }}..."</p>
                         </div>
 
                         <div class="action-buttons-div">

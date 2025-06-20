@@ -5,7 +5,8 @@ $accent-color: #F0F0F0;
 $post-card-bg2: #f0dbc4;
 $body-bg: white;
 $cancel-btn-bg: #303030;
-
+$error-banner-bg: #dc143c;
+$post-body-col: #36454F;
 
 
 
@@ -17,6 +18,7 @@ $cancel-btn-bg: #303030;
     cursor: pointer;
     width: 8rem;
     transition: box-shadow 0.3s ease, transform 0.2s ease;
+    font-size: 1rem;
 
 
     &:hover {

@@ -24,13 +24,10 @@ export class ApiService {
 
   baseUrl = `${ environment.apiBaseUrl }/posts`
 
-  constructor() {
-    // this.fetchAllPosts()
-   }
+  constructor() {}
 
 
   clearPostsCache() {
-    console.log("all cache cleared")
     this.cacheService.clearKey(this.baseUrl);
   }
 
@@ -44,7 +41,6 @@ export class ApiService {
     const cachedData = this.cacheService.get(this.baseUrl);
     if (cachedData) {
       this.AllPostsArray.next(cachedData);
-      console.log('[CACHE] Loaded posts from cache');
       return;
     }
     
@@ -52,8 +48,7 @@ export class ApiService {
     .pipe(
       retry(2),
       catchError(( err ) => {
-        this.errorService.handleAPIRequestError( err ); // centralized error handling
-        // return of([]) // fallback value to avoid app craching
+        this.errorService.handleAPIRequestError( err ); 
         return of({ body: [] })
       })
     )
@@ -63,14 +58,11 @@ export class ApiService {
 
 
       if( res instanceof HttpResponse ) {
-        // Get total count from header for pagination
         const totalCount = res.headers.get('X-Total-Count');
         this.totalPostsSubject.next(Number( totalCount ))
-        console.log(`[API] Fetched page ${page}, total = ${totalCount}`);   
 
       }
 
-      // caching it.
       this.cacheService.set( cacheKey, posts)
 
     
@@ -88,13 +80,13 @@ export class ApiService {
       retry(2),
       catchError(( err ) => {
       this.errorService.handleAPIRequestError( err )
-      return of( null ) // so the app can continue
+      return of( null ) 
     }))
     .subscribe((data) => {
       if( data ) {
         let updatedPosts = [ data, ...currentPosts ]
         this.AllPostsArray.next( updatedPosts )
-        this.cacheService.set(this.baseUrl, updatedPosts);  // update cache to keep it in sync.    
+        this.cacheService.set(this.baseUrl, updatedPosts);  
       }
     })
   }
@@ -105,8 +97,7 @@ export class ApiService {
     const cachedData = this.cacheService.get(url);
 
     if (cachedData) {
-      console.log(`[CACHE] Loaded post ${postID} from cache`);
-      return of(cachedData); // Return cached result as Observable
+      return of(cachedData); 
     }
 
 
@@ -114,15 +105,10 @@ export class ApiService {
       retry(2),
       catchError(( error ) => {
         this.errorService.handleAPIRequestError( error );
-        return throwError(() => error )  // re-throw so the component can handle it too
+        return throwError(() => error ) 
       }),
-      // Store result in cache
-      // Use tap() to cache the successful response before emitting
-      // (avoids side effects inside subscribe)
-      // But since you want to return an Observable, we use tap here
       tap((data) => {
         this.cacheService.set(url, data);
-        console.log(`[API] Fetched and cached post ${postID}`);
       })
       )
 
@@ -134,20 +120,18 @@ export class ApiService {
     .pipe(
       catchError((error) => {
         this.errorService.handleAPIRequestError( error );
-        return of( null ) // fallback, allows .subscribe() to run smoothly
+        return of( null ) 
       })
     )
     .subscribe({
       next: ( data => {
-        if(!data) return  // prevent updating the list if deletion failed
+        if(!data) return 
 
-        console.log("deleted post = ", data )
         let currentPosts = this.AllPostsArray.getValue()
         let filteredPosts = currentPosts.filter( post => post.id !== postID );
         this.AllPostsArray.next( filteredPosts )
 
         this.cacheService.set(this.baseUrl, filteredPosts);
-        console.log('[CACHE] Cache updated after deleting post');      
       })
     })
   }
@@ -165,11 +149,9 @@ export class ApiService {
     )
     .subscribe({
       next: (data => {
-        if (!data) return  // prevent updating the list if deletion failed
+        if (!data) return  
 
         oldPost = data;
-        console.log("old post = ", oldPost)
-        console.log("new post = ", updatedPost )
 
         let currentItems = this.AllPostsArray.getValue()
         let indexOfPostToEdit = currentItems.findIndex( postItem => postItem.id === oldPostID )
@@ -177,7 +159,6 @@ export class ApiService {
         this.AllPostsArray.next( currentItems )
 
         this.cacheService.set(this.baseUrl, currentItems);
-        console.log('[CACHE] Cache updated after editing post');
       })
     })
 
@@ -189,8 +170,7 @@ export class ApiService {
     const cachedData = this.cacheService.get(url);
 
     if (cachedData) {
-      console.log(`[CACHE] Loaded comments for post ${postID}`);
-      return of(cachedData); // Return cached Observable
+      return of(cachedData); 
     }
 
     return this.httpClient.get<CommentInterface[]>(`${this.baseUrl}/${ postID }/comments`)
@@ -198,7 +178,6 @@ export class ApiService {
       retry(2),
       tap((data) => {
         this.cacheService.set(url, data);
-        console.log(`[API] Fetched and cached comments for post ${postID}`);
       }),
       catchError(( error ) => {
         this.errorService.handleAPIRequestError( error );
@@ -206,8 +185,6 @@ export class ApiService {
       })
     )
   }
-
-
 
 
 }

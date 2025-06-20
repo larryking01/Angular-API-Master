@@ -35,11 +35,9 @@ export class CreatePost {
     this.formSubmitted = true;
     
     if( this.postForm.invalid ) {
-      console.log("all fields are required")
       this.postForm.markAllAsTouched();
       return
     } else {
-      console.log("form value = ", this.postForm.value );
       let newPost: PostInterface = {
         userId: Math.random() * 100,
         id: Math.random() * 200,
