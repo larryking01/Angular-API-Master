@@ -1,17 +1,4 @@
-// .error-banner {
-//     background-color: red;
-//     position: fixed;
-//     right: 0;
-//     width: 40%;
-//     color: white;
-//     padding: 1rem;
-//     border-radius: 6px;
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-//     margin: 1rem;
-// }
+@use '../../../styling/reusables' as *;
 
 
 .error-banner {
@@ -21,8 +8,9 @@
   position: fixed;
   top: 2rem;
   left: 50%;
+  width: 40%;
   transform: translateX(-50%);
-  background-color: red;
+  background-color: $error-banner-bg;
   color: white;
   padding: 1rem 2rem;
   border-radius: 8px;
@@ -44,10 +32,16 @@
 }
 
 
-.close-btn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  color: white;
+.close-icon {
+  width: 22px;
   cursor: pointer;
+}
+
+
+
+
+@media (max-width: 1023px) {
+  .error-banner {
+    width: 70%;
+  }
 }

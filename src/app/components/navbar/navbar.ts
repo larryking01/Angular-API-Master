@@ -21,14 +21,12 @@ export class Navbar {
 
   login() {
     this.authService.login();
-    this.router.navigate(['/']); // or home/dashboard
-    console.log(this.authService.isAuthenticated())
+    this.router.navigate(['/']); 
   }
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/']); // or wherever
-    console.log(this.authService.isAuthenticated())
+    this.router.navigate(['/']); 
   }
 
 

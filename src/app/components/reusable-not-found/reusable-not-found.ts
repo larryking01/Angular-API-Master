@@ -11,7 +11,6 @@ export class ReusableNotFound {
 
   @Input() errorInfoText: string = ''
   @Input() goToHomeBtnText: string = ''
-  // @Input() notFoundImage: string = ''
 
   router = inject( Router )
 

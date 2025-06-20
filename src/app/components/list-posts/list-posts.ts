@@ -117,7 +117,6 @@ export class ListPosts implements OnInit {
 
 
   deletePostItem(postId: number) {
-      console.log("post to delete id = ", postId )
       this.apiService.deletePost( postId )
       this.closeDeleteModal()
   }
@@ -136,14 +135,12 @@ export class ListPosts implements OnInit {
     else {
       this.selectedPostID = postID;
       this.showDeleteModal = true
-      console.log("show modal = ", this.showDeleteModal )
     }
   }
 
   closeDeleteModal() {
     this.selectedPostID = null
     this.showDeleteModal = false
-    console.log("show modal = ", this.showDeleteModal )
   }
   
 

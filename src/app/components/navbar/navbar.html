@@ -4,8 +4,7 @@
     <button *ngIf="!isLoggedIn()" (click)="login()">Login</button>
 
     <div *ngIf="isLoggedIn()" class="user-logged-in-div">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcC3jNztj2ZaoliXdbMHV2GaxIPYM2685QTWOWe4grFdIzkAQKFjRSztjuIa5iPs76zCI&usqp=CAU"
-             class="user-avatar" alt="user-avatar" >
+        <img src="assets/user-profile-image.jpg" class="user-avatar" alt="user-avatar" >
         <button (click)="logout()">Logout</button>
     </div>
 </header>

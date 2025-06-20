@@ -42,20 +42,16 @@ export class EditPost implements OnInit {
 
   ngOnInit(): void {
     this.selectedPostID = this.activatedRoute.snapshot.paramMap.get('postID')!;
-    console.log('edit post detail id = ', this.selectedPostID );
     
     this.apiService.getPostDetails( this.selectedPostID as string ).subscribe({
       next: ( data => {
         this.oldPostItem = data
-        console.log("edit post detail = ", this.oldPostItem );
         this.editForm.patchValue({
           postTitle: this.oldPostItem.title,
           postBody: this.oldPostItem.body
         })
       }),
       error: ( err => { 
-        console.log('edit error, cannot find post ', err )
-        console.log("from error post detail = ", this.oldPostItem )
         this.noPostItemFound = true
       })
     })
@@ -67,12 +63,10 @@ export class EditPost implements OnInit {
     this.formSubmitted = true;
 
     if( this.editForm.invalid ) {
-      console.log('all fields are required')
       this.editForm.markAllAsTouched();
       return;
     }
     else {
-      console.log("old post = ", this.oldPostItem)
       let updatedPost: PostInterface = {
         id: this.oldPostItem!.id,
         userId: this.oldPostItem!.userId,
@@ -80,7 +74,6 @@ export class EditPost implements OnInit {
         body: this.editForm.value.postBody!
       }
       this.apiService.editPost(Number.parseInt( this.selectedPostID ), updatedPost);
-      console.log("updated post = ", updatedPost)
       this.toastService.showToast("Post updated successfully !...")
       setTimeout(() => {
         this.goToHome()

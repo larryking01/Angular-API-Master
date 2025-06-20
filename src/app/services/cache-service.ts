@@ -9,7 +9,7 @@ import { CacheEntry } from '../../shared/model';
 export class CacheService {
 
   private cache = new Map<string, CacheEntry>()
-  private cacheDuration = 5 * 60 * 1000;   // 5 minutes
+  private cacheDuration = 5 * 60 * 1000;   
 
   constructor() { }
 
