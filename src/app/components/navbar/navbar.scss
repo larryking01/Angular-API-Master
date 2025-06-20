@@ -36,14 +36,17 @@ h3 {
 
 
 button {
-    border: none;
-    cursor: pointer;
-    color: #fff;;
-    background-color: $primary-color;
+    // border: none;
+    // cursor: pointer;
+    // color: #fff;;
+    // background-color: $primary-color;
+    // width: 6rem;
+    // height: 2.5rem;
+    // border-radius: 0.625rem;
+    // font-size: 1rem;
+    // align-self: center;
+
+    @include primary-btn-styling();
     width: 6rem;
-    height: 2.5rem;
-    border-radius: 0.625rem;
-    font-size: 1rem;
-    align-self: center;
 
 }

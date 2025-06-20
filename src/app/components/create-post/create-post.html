@@ -10,15 +10,30 @@
                 <div class="post-title-div">
                     <label for="postTitle">Post Title</label>
                     <div>
+                        <div class="error" *ngIf="postForm.controls['postTitle'].invalid && (formSubmitted || postForm.controls['postTitle'].touched)">
+                            <small *ngIf="postForm.controls['postTitle'].errors?.['required']">
+                                Title is required.
+                            </small>
+                            <small *ngIf="postForm.controls['postTitle'].errors?.['minlength']">
+                                Title must be at least 8 characters long.
+                            </small>
+                        </div>                        
                         <input type="text" class="post-title" id="postTitle" formControlName="postTitle" />
                     </div>
                 </div>
                 
+
                 <div class="post-body-div">
                     <label for="postBody">Post Body</label>
+                    <div class="error" *ngIf="postForm.controls['postBody'].invalid && (formSubmitted || postForm.controls['postBody'].touched)">
+                        <small *ngIf="postForm.controls['postBody'].errors?.['required']">
+                            Body is required.
+                        </small>
+                    </div>                    
                     <div>
-                        <textarea type="text" class="post-body" id="postBody" formControlName="postBody" rows="10   ">
-                        </textarea>
+                        
+                    <textarea type="text" class="post-body" id="postBody" formControlName="postBody" rows="10   ">
+                    </textarea>
                     </div>
                 </div>
             </article>
